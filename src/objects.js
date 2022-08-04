@@ -4,10 +4,7 @@ const listItem = function(title, dueDate, priority, desc="", isDone=false, isExp
 // priority - 1 for low, 2 for medium, 3 for high
 
 const project = function(title, desc="",listItemArr=[]){
-    const addListItem = (itemTitle, desc="", dueDate="No due date", isDone=false, priority=1) => {
-        this.listItemArr.push(listItem(itemTitle, dueDate, priority, isDone, desc));
-    }
-    return {title, desc, listItemArr, addListItem};
+    return {title, desc, listItemArr};
 }
 
 export const projectsArray = [];
@@ -19,8 +16,8 @@ export const createProject = (title, desc="") => {
     projectsArray.push(project(title,desc, [testItem1, testItem2, testItem3]));
 }
 
-// export const createListItem = (project) => {
-//     project.addListItem
-// }
-
-let testItem = listItem("Buy carrots", "22.09.22", 1, "" );
+export const addListItem = (project, itemTitle, desc, dueDate, priority) => {
+    if (dueDate === '') dueDate ='No due date';
+    project.listItemArr.push(listItem(itemTitle, dueDate, priority, desc));
+    console.table(project.listItemArr);
+}

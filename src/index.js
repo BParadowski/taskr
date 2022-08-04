@@ -1,13 +1,9 @@
 import "./style.scss";
-import emptyPage from "./emptywindow";
-import { renderProjectsList, renderToDoList } from "./DOMrenders";
+import { renderProjectsList} from "./DOMrenders";
 import { createProject } from "./objects";
 
 const contentDiv = document.querySelector('.content');
 const newProjectBtn = document.querySelector('.projects__add-button');
-
-
-contentDiv.replaceChildren(emptyPage);
 
 // newProjectBtn.addEventListener('click', () => {
 
