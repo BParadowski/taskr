@@ -13,7 +13,7 @@
     letter-spacing: 0.1ch;
 
     --header-color: #fdba74;
-    --projects-menu-color: #56aad1;
+    --projects-menu-color: #e5e5e5;
     --text-color-gray: #57534e;
     --text-color-lighter-gray: #78716c;
     --accent-orange: #f97316;
@@ -53,10 +53,12 @@ body,html{
 }
 
 .projects{
-    width: 12rem;
+    width: 14rem;
     padding: 2rem;
     background-color: var(--projects-menu-color);
+    color: var(--text-color-gray);
 
+    position: relative;
     &__title-container{
         display: flex;
         justify-content: space-evenly;
@@ -76,15 +78,40 @@ body,html{
     &__item{
         cursor: pointer;
         padding: 0.5rem 2rem;
+        border-radius: 1rem;
         &:hover{
             outline: var(--header-color) 2px solid;
+            background-color: white;
         }
     }
 
     &__add-button{
-        padding: 1rem;
+        height: 3rem;
+        width: 3rem; 
+        background-color: inherit;
+        background-position: center;
+        background-size: contain;
+        border: 3px solid var(--header-color);
+        border-radius: 1rem;
+        cursor: pointer;
+        outline: none;
+        
+        &:hover{
+            background-color: white;
+        }
     }
-     
+    
+    ::after{
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -2rem;
+        transform: translateY(-50%);
+        height: 3rem;
+        width: 1rem;
+        background-color: var(--light-gray-accent);
+        border-radius: 0.5rem;
+    }
 }
 
 .content{
@@ -146,7 +173,7 @@ body,html{
         max-height: 2rem;
         height: fit-content;
         border: #fdba74 3px solid;
-        border-radius: 1.25rem;
+        border-radius: 1.7rem;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         border-left: none;
@@ -171,8 +198,8 @@ body,html{
             border: #fdba74 3px solid;
             border-right: none;
             z-index: 1;
-            border-top-left-radius: 1.25rem;
-            border-bottom-left-radius: 1.25rem;
+            border-top-left-radius: 1rem;
+            border-bottom-left-radius: 1rem;
 
             transition-property: background-color, border-color, color, max-height;
             transition-duration: 0.3s;
@@ -243,7 +270,6 @@ body,html{
         box-sizing: border-box;
         row-gap: 1rem;
         grid-template-columns: 1fr auto;
-        grid-template-rows: auto auto;
         overflow: hidden;
         padding-top: 0.5rem;
         // transition: max-height 700ms ease-in-out;
@@ -258,7 +284,7 @@ body,html{
         margin-right: 9rem;
     }
 
-    &__edit-btn, &__delete-btn{
+    &__delete-btn{
         width: 2rem;
         height: 2rem;
         background-position: center;
@@ -266,14 +292,10 @@ body,html{
         border: none;
         background-color: white;
         cursor: pointer;
+        transition-property: background-color, border-color, color, max-height;
+        transition-duration: 0.3s;
+        transition-timing-function:  ease-in-out;
     }
-    &__edit-btn{
-        align-self: end;
-    }
-    &__delete-btn{
-        align-self: flex-start;
-    }
-
 }
 
 
@@ -301,7 +323,19 @@ body,html{
 }
 
 .newToDoBtn{
-    padding: 10px;
+    height: 3rem;
+    width: 3rem; 
+    background-color: white;
+    background-position: center;
+    background-size: contain;
+    border: 3px solid var(--accent-orange);
+    border-radius: 1rem;
+    cursor: pointer;
+    outline: none;
+
+    opacity: 0;
+    animation: stagger ease-out 0.3s forwards 1;
+    animation-delay: calc(var(--order) * 0.1s);
 
     &.hidden{
         visibility: hidden;

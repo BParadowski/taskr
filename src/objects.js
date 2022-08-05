@@ -1,4 +1,35 @@
-import { compareAsc} from 'date-fns'
+import { compareAsc,  parseJSON} from 'date-fns'
+import { renderProjectsList } from './DOMrenders';
+
+let localStorageData = localStorage.getItem('localData');
+const dateTimeReviver = function (key, value) {
+    let a;
+    if (typeof value === 'string') {
+        a = /^\d{4}-\d\d-\d\d\w\d\d:\d\d:\d\d.*/.exec(value);
+        if (a) {
+            return parseJSON(a[0]);
+        }
+    }
+    return value;
+}
+
+function createArray (){
+    if (localStorageData){
+         return JSON.parse(localStorageData, dateTimeReviver);
+    }
+    else{
+        return []
+    }
+}
+
+export let projectsArray = createArray();
+
+// above: local storage parsing and creating array of projects.
+
+const updateLocalStorage = () => {
+    let projectsData = JSON.stringify(projectsArray);
+    localStorage.setItem('localData', projectsData);
+}
 
 const listItem = function(title, dueDate, priority, desc="", isDone=false, isExpanded=false){
     return {title, dueDate, priority, desc, isDone, isExpanded};
@@ -9,14 +40,15 @@ const project = function(title, desc="",listItemArr=[]){
     return {title, desc, listItemArr};
 }
 
-export const projectsArray = [];
+
 
 export const createProject = (title, desc="") => {
     let testDate = new Date()
-    let testItem1 = listItem("Buy carrots", testDate, 3, "Eat your vegetables, they're good for you. " );
-    let testItem2 = listItem("Banaas", testDate, 1, "" );
+    let testItem1 = listItem("Click me to expand", testDate, 3, "Use the checkbox to mark this item as done. You can also delete an item by selecting the trash can icon." );
+    let testItem2 = listItem("To add new list item, use plus sign below", testDate, 1, "You will be prompted for title, detailed description, due date and priority. Priority range is 1 to 3 with 1 being lowest and 3 highest." );
     let testItem3 = listItem("Yaribu Kalaome'ri", testDate, 2, "" );
     projectsArray.push(project(title,desc, [testItem1, testItem2, testItem3]));
+    updateLocalStorage();
 }
 
 export const addListItem = (project, itemTitle, desc, dueDate, priority) => {
@@ -25,7 +57,8 @@ export const addListItem = (project, itemTitle, desc, dueDate, priority) => {
         dueDate = new Date(...dueDate.split('-'));
     }
     project.listItemArr.push(listItem(itemTitle, dueDate, priority, desc));
-    console.table(project.listItemArr);
+    console.table(project.listItemArr)
+    updateLocalStorage();
 }
 
 export const sortByDate = function (project) {
@@ -43,8 +76,16 @@ export const sortByDate = function (project) {
             return 0;
         }
     });
+    updateLocalStorage();
 }
 
 export const sortByPriorityDescending = function (project) {
     project.listItemArr.sort((a,b) => (b.priority - a.priority));
+    updateLocalStorage();
+}
+
+export const deleteToDo = function (project, item) {
+    let index = project.listItemArr.indexOf(item);
+    project.listItemArr.splice(index, 1);
+    updateLocalStorage();
 }

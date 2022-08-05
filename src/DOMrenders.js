@@ -1,8 +1,8 @@
 import { format } from 'date-fns'
-import { projectsArray, addListItem, sortByDate } from "./objects";
+import { projectsArray, addListItem, deleteToDo, sortByDate } from "./objects";
 import cat from './cat.jpg';
-import editIcon from './edit-icon.svg';
 import deleteIcon from './delete-icon.svg';
+import addIcon from './add-icon.svg'
 
 
 let currentProject; // variable holding the project the page of which is open atm
@@ -11,6 +11,7 @@ const contentDiv = document.querySelector('.content');
 const projectsList = document.querySelector('.projects__list');
 const openModalBtn = document.createElement('button');
 openModalBtn.classList.add('newToDoBtn');
+openModalBtn.style.backgroundImage = `url(${addIcon})`;
 
 const renderEmptyPage = () => {
     const emptyPageDiv = document.createElement('div');
@@ -36,6 +37,8 @@ const expandItem = function(item) {
     item.isExpanded = item.isExpanded ? false : true;
 }
 
+
+
 const renderItem = (item, index=0) => {
     const projectList = document.querySelector('.project-page__list');
 
@@ -59,6 +62,7 @@ const renderItem = (item, index=0) => {
     itemIsDone.checked = item.isDone;
 
     const toggleDoneStatus = function(e) {
+        e.stopPropagation();
         this.isDone = this.isDone ? false : true;
         console.log(this);
     }.bind(item);
@@ -66,6 +70,7 @@ const renderItem = (item, index=0) => {
     itemIsDone.addEventListener('click', toggleDoneStatus);
 
     const toggleDoneClass = function(e){
+        e.stopPropagation();
         this.classList.toggle('done');
     }.bind(listItem)
 
@@ -80,17 +85,21 @@ const renderItem = (item, index=0) => {
     const itemDetails = document.createElement('p');
     itemDetails.textContent = item.desc;
     itemDetails.classList.add('item__details');
-    const itemEdit = document.createElement('button');
-    itemEdit.classList.add('item__edit-btn');
-    itemEdit.style.backgroundImage = `url(${editIcon})`;
+
+    const deleteItem = function(itemNode){
+        deleteToDo(currentProject, this);
+        itemNode.remove();
+    }.bind(item, listItem)
+
     const itemDelete = document.createElement('button');
     itemDelete.classList.add('item__delete-btn');
     itemDelete.style.backgroundImage = `url(${deleteIcon})`;
 
+    itemDelete.addEventListener('click', deleteItem);
+
     const lowerRow = document.createElement('div');
     lowerRow.classList.add('item__lower-row');
-    // , 'hidden'
-    lowerRow.replaceChildren( itemDetails, itemEdit, itemDelete);
+    lowerRow.replaceChildren( itemDetails, itemDelete);
 
     listItem.replaceChildren(upperRow, lowerRow);
     listItem.style.setProperty('--order', index + 1); // for animation
@@ -122,7 +131,7 @@ const renderItem = (item, index=0) => {
     console.log(currentProject);
 }
 
-export const renderProjectsList = () => {
+export function renderProjectsList(){
     console.log(projectsArray);
     if (projectsArray.length === 0){
         renderEmptyPage();
@@ -181,6 +190,7 @@ export const renderToDoList = () => {
 
     //reveal button to add new list items
     openModalBtn.classList.remove('hidden');
+    openModalBtn.style.setProperty('--order', currentProject.listItemArr.length + 1);
 }
 
 // modal module
