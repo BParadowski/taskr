@@ -13,7 +13,7 @@ export const projectsArray = [];
 
 export const createProject = (title, desc="") => {
     let testDate = new Date()
-    let testItem1 = listItem("Buy carrots", testDate, 3, "Eat your vegetables, they're good for you." );
+    let testItem1 = listItem("Buy carrots", testDate, 3, "Eat your vegetables, they're good for you. " );
     let testItem2 = listItem("Banaas", testDate, 1, "" );
     let testItem3 = listItem("Yaribu Kalaome'ri", testDate, 2, "" );
     projectsArray.push(project(title,desc, [testItem1, testItem2, testItem3]));

@@ -41,7 +41,7 @@ body,html{
 
 .header{
     grid-column: 1/-1;
-    height: 4rem;
+    height: 3rem;
     padding: 1rem 2rem;
     
     background-color: var(--header-color);
@@ -143,7 +143,7 @@ body,html{
         padding:0.5rem 1.5rem ;
 
         width: 100%;
-        // height: 2rem;
+        max-height: 2rem;
         height: fit-content;
         border: #fdba74 3px solid;
         border-radius: 1.25rem;
@@ -151,7 +151,7 @@ body,html{
         border-bottom-left-radius: 0;
         border-left: none;
 
-        transition-property: background-color, border-color, color, height;
+        transition-property: background-color, border-color, color;
         transition-duration: 0.3s;
         transition-timing-function:  ease-in-out;
 
@@ -200,15 +200,20 @@ body,html{
                 background-color: var(--light-gray-accent);
                 border-color: var(--light-gray-text);
             }
+
+            & .item__edit-btn, .item__delete-btn{
+                background-color: var(--light-gray);
+            }
         }
 
         &.expanded{
-            // max-height: fit-content;
+            max-height: 10000rem;
 // expand lowerRow 
             &>.item__lower-row{
-                max-height: fit-content;
+                max-height: 10000rem;
             }
         }
+
     }
 }
 
@@ -235,11 +240,14 @@ body,html{
 
     &__lower-row{
         display: grid;
+        box-sizing: border-box;
+        row-gap: 1rem;
         grid-template-columns: 1fr auto;
         grid-template-rows: auto auto;
         overflow: hidden;
+        padding-top: 0.5rem;
+        // transition: max-height 700ms ease-in-out;
         max-height: 0;
-        transition: max-height 400ms ease-in-out;
         // height is set to auto in line 208
     }
 
@@ -247,11 +255,23 @@ body,html{
     &__details{
         grid-row: 1/-1;
         font-style: italic;
-        margin-right: 7rem;
+        margin-right: 9rem;
     }
 
-    &__edit-btn{
+    &__edit-btn, &__delete-btn{
         width: 2rem;
+        height: 2rem;
+        background-position: center;
+        background-size: contain;
+        border: none;
+        background-color: white;
+        cursor: pointer;
+    }
+    &__edit-btn{
+        align-self: end;
+    }
+    &__delete-btn{
+        align-self: flex-start;
     }
 
 }

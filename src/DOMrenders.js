@@ -82,10 +82,10 @@ const renderItem = (item, index=0) => {
     itemDetails.classList.add('item__details');
     const itemEdit = document.createElement('button');
     itemEdit.classList.add('item__edit-btn');
-    itemEdit.style.backgroundImage = editIcon;
+    itemEdit.style.backgroundImage = `url(${editIcon})`;
     const itemDelete = document.createElement('button');
     itemDelete.classList.add('item__delete-btn');
-    itemDelete.style.backgroundImage = deleteIcon;
+    itemDelete.style.backgroundImage = `url(${deleteIcon})`;
 
     const lowerRow = document.createElement('div');
     lowerRow.classList.add('item__lower-row');
