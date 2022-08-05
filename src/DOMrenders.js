@@ -99,7 +99,7 @@ const renderItem = (item, index=0) => {
     }
     if (item.isExpanded)
     {
-        llistItem.classList.add('expanded');
+        listItem.classList.add('expanded');
     }
     switch (item.priority){
         case 1: 

@@ -149,7 +149,9 @@ body,html{
         border-bottom-left-radius: 0;
         border-left: none;
 
-        transition: all 0.4s ease-in-out;
+        transition-property: background-color, border-color, color;
+        transition-duration: 0.3s;
+        transition-timing-function:  ease-in-out;
 
         position: relative;
 // animation stuff :)
@@ -169,6 +171,10 @@ body,html{
             z-index: 1;
             border-top-left-radius: 1.25rem;
             border-bottom-left-radius: 1.25rem;
+
+            transition-property: background-color, border-color, color,height;
+            transition-duration: 0.3s;
+            transition-timing-function:  ease-in-out;
         }
 
         &.low-priority::before{
