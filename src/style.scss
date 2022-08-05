@@ -19,6 +19,7 @@
     --accent-green: #bef264;
     --accent-yellow: #fde047;
     --accent-red: #fca5a5;
+    --accent-green-darker: #a3e635;
     --light-gray: #e5e5e5;
     --light-gray-text: #a3a3a3;
     --light-gray-accent: #d4d4d4;
@@ -33,6 +34,7 @@ body,html{
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: auto 1fr;
+    position: relative;
 }
 
 .header{
@@ -75,6 +77,10 @@ body,html{
         &:hover{
             outline: var(--header-color) 2px solid;
         }
+    }
+
+    &__add-button{
+        padding: 1rem;
     }
      
 }
@@ -163,6 +169,7 @@ body,html{
             border-bottom-left-radius: 1.25rem;
 
         }
+
         &.low-priority::before{
             background-color: var(--accent-green);
         }
@@ -222,10 +229,105 @@ body,html{
     &__form{
         display: grid;
         grid-template-columns: auto auto;
+        row-gap: 1rem;
+        column-gap: 2rem;
+        padding: 2rem;
+
+
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+
+        border: 3px solid var(--header-color);
+        border-radius: 0.5rem;
+        background-color: var(--light-gray);
+        color: var(--text-color-gray);
+
+        &>*{
+            padding: 0.5rem;
+        }
+
+        &>input{
+            min-width: 18rem;
+        }
+    
+        &>textarea{
+            min-height: 8rem;
+        }
     }
 
+    &::backdrop{
+        background-color: #57534e;
+        opacity: 0.4;
+    }
+ 
 }
 
 .toDo__add-btn{
-    padding: 10px;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+    background-color: var(--accent-green);
+    font-family: 'Lato', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
+    border: 3px solid var(--header-color);
+    color: var(--text-color-gray);
+
+    &:hover{
+        background-color: var(--accent-green-darker);
+    }
+}
+
+.project-dialog{
+    &__form{
+        display: grid;
+        grid-template-columns: auto auto;
+        row-gap: 1rem;
+        column-gap: 2rem;
+        padding: 2rem;
+
+
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+
+        border: 3px solid var(--header-color);
+        border-radius: 0.5rem;
+        background-color: var(--light-gray);
+        color: var(--text-color-gray);
+
+        &>*{
+            padding: 0.5rem;
+        }
+
+        &>input{
+            min-width: 18rem;
+        }
+    
+        &>textarea{
+            min-height: 8rem;
+        }
+    }
+
+    &::backdrop{
+        background-color: #57534e;
+        opacity: 0.4;
+    }
+}
+
+.project__add-new-button{
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+    background-color: var(--accent-green);
+    font-family: 'Lato', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
+    border: 3px solid var(--header-color);
+    color: var(--text-color-gray);
+
+    &:hover{
+        background-color: var(--accent-green-darker);
+    }
 }

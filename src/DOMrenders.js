@@ -1,4 +1,5 @@
-import { projectsArray, addListItem } from "./objects";
+import { format } from 'date-fns'
+import { projectsArray, addListItem, sortByDate } from "./objects";
 import cat from './cat.jpg';
 
 let currentProject; // variable holding the project the page of which is open atm
@@ -42,7 +43,12 @@ const renderItem = (item, index=0) => {
     itemTitle.textContent = item.title;
     const itemDate = document.createElement('p');
     itemDate.classList.add('item__date');
-    itemDate.textContent = item.dueDate;
+    if (typeof item.dueDate === 'object'){
+        itemDate.textContent = format(item.dueDate, "d LLL yyyy");
+    }
+    else{
+        itemDate.textContent = item.dueDate;
+    }
     const itemIsDone = document.createElement('input');
     itemIsDone.type = 'checkbox';
     itemIsDone.checked = item.isDone;
@@ -107,6 +113,7 @@ export const renderProjectsList = () => {
         const displayToDoList = function (e){
             if (currentProject !== this){
             currentProject = this;
+            sortByDate(currentProject);
             renderToDoList();}
         }.bind(arr[index]);
         projectDiv.addEventListener('click', displayToDoList);
@@ -168,6 +175,7 @@ const toDoModal = (function(){
         date.value = "";
         priority.value = 1;
         renderItem(currentProject.listItemArr[currentProject.listItemArr.length-1]);
+        modal.close();
         }
     }
 
