@@ -1,8 +1,12 @@
 import { format } from 'date-fns'
 import { projectsArray, addListItem, sortByDate } from "./objects";
 import cat from './cat.jpg';
+import editIcon from './edit-icon.svg';
+import deleteIcon from './delete-icon.svg';
+
 
 let currentProject; // variable holding the project the page of which is open atm
+
 const contentDiv = document.querySelector('.content');
 const projectsList = document.querySelector('.projects__list');
 const openModalBtn = document.createElement('button');
@@ -51,6 +55,7 @@ const renderItem = (item, index=0) => {
     }
     const itemIsDone = document.createElement('input');
     itemIsDone.type = 'checkbox';
+    itemIsDone.classList.add('item__checkbox');
     itemIsDone.checked = item.isDone;
 
     const toggleDoneStatus = function(e) {
@@ -66,10 +71,35 @@ const renderItem = (item, index=0) => {
 
     itemIsDone.addEventListener('click', toggleDoneClass);
 
-    listItem.replaceChildren(itemTitle, itemDate, itemIsDone);
+    // putting uppper row stuff into one flex container
+    const upperRow = document.createElement('div');
+    upperRow.classList.add('item__upper-row');
+    upperRow.replaceChildren(itemTitle, itemDate, itemIsDone);
+
+    // stuff visible after expanding
+    const itemDetails = document.createElement('p');
+    itemDetails.textContent = item.desc;
+    itemDetails.classList.add('item__details');
+    const itemEdit = document.createElement('button');
+    itemEdit.classList.add('item__edit-btn');
+    itemEdit.style.backgroundImage = editIcon;
+    const itemDelete = document.createElement('button');
+    itemDelete.classList.add('item__delete-btn');
+    itemDelete.style.backgroundImage = deleteIcon;
+
+    const lowerRow = document.createElement('div');
+    lowerRow.classList.add('item__lower-row');
+    // , 'hidden'
+    lowerRow.replaceChildren( itemDetails, itemEdit, itemDelete);
+
+    listItem.replaceChildren(upperRow, lowerRow);
     listItem.style.setProperty('--order', index + 1); // for animation
     if (item.isDone){
         listItem.classList.add('done');
+    }
+    if (item.isExpanded)
+    {
+        llistItem.classList.add('expanded');
     }
     switch (item.priority){
         case 1: 
@@ -84,13 +114,15 @@ const renderItem = (item, index=0) => {
         default:
             listItem.classList.add('medium-priority');
     }
-// stuff visible after expanding
-    const itemDetails = document.createElement('p');
-    itemDetails.textContent = item.desc;
-    itemDetails.classList.add('item__details');
+
+    // const toggleLowerRowHidden = function(){
+    //     setTimeout(10, this.classList.toggle('hidden'));
+    // }
 
 //expansion eventListener
     listItem.addEventListener('click', expandItem.bind(listItem, item));
+    // listItem.addEventListener('click', toggleLowerRowHidden.bind(lowerRow));
+
     projectList.appendChild(listItem);
     console.log(currentProject);
 }
@@ -113,7 +145,6 @@ export const renderProjectsList = () => {
         const displayToDoList = function (e){
             if (currentProject !== this){
             currentProject = this;
-            sortByDate(currentProject);
             renderToDoList();}
         }.bind(arr[index]);
         projectDiv.addEventListener('click', displayToDoList);

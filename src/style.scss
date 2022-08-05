@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 
+
 *{
     margin: 0;
     padding: 0;
@@ -134,21 +135,21 @@ body,html{
     }
 
     &__list-item{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-sizing: border-box;
+        display: grid;
+        box-sizing:content-box;
+        z-index: 0;
 
-        padding:0.5rem  1.5rem ;
+        padding:0.5rem 1.5rem ;
+
         width: 100%;
-        height: 3rem;
+        height: 2rem;
         border: #fdba74 3px solid;
         border-radius: 1.25rem;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         border-left: none;
 
-        overflow: hidden;
+        transition: all 0.4s ease-in-out;
 
         position: relative;
 // animation stuff :)
@@ -161,13 +162,13 @@ body,html{
             content: "";
             height: 100%;
             left: -3rem;
+            top: -3px;
             width: 3rem;
             border: #fdba74 3px solid;
             border-right: none;
             z-index: 1;
             border-top-left-radius: 1.25rem;
             border-bottom-left-radius: 1.25rem;
-
         }
 
         &.low-priority::before{
@@ -192,8 +193,52 @@ body,html{
                 border-color: var(--light-gray-text);
             }
         }
+
+        &.expanded{
+            height: fit-content;
+
+            &>.item__lower-row{
+                height: auto;
+            }
+        }
     }
 }
+
+// inside of list item
+.item{
+    &__upper-row{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1.5rem;
+
+        height: 2rem;
+  
+    }
+
+    &__lower-row{
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto;
+        overflow: hidden;
+        transition: height 400ms ease-in-out;
+        height: 0;
+        // &.hidden{
+        //     height: 0;
+        //     transition: height 400ms ease-in-out;
+        // }
+    }
+
+    &__date{
+        margin-left: auto;
+    }
+
+    &__details{
+        grid-row: 1/-1;
+    }
+}
+
+
 
 .emptyPage{
     flex: 1;
