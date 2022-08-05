@@ -115,13 +115,8 @@ const renderItem = (item, index=0) => {
             listItem.classList.add('medium-priority');
     }
 
-    // const toggleLowerRowHidden = function(){
-    //     setTimeout(10, this.classList.toggle('hidden'));
-    // }
-
 //expansion eventListener
     listItem.addEventListener('click', expandItem.bind(listItem, item));
-    // listItem.addEventListener('click', toggleLowerRowHidden.bind(lowerRow));
 
     projectList.appendChild(listItem);
     console.log(currentProject);
