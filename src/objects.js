@@ -1,5 +1,4 @@
 import { compareAsc,  parseJSON} from 'date-fns'
-import { renderProjectsList } from './DOMrenders';
 
 let localStorageData = localStorage.getItem('localData');
 const dateTimeReviver = function (key, value) {
@@ -26,7 +25,7 @@ export let projectsArray = createArray();
 
 // above: local storage parsing and creating array of projects.
 
-const updateLocalStorage = () => {
+export const updateLocalStorage = () => {
     let projectsData = JSON.stringify(projectsArray);
     localStorage.setItem('localData', projectsData);
 }

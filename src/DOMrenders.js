@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { projectsArray, addListItem, deleteToDo, sortByDate } from "./objects";
+import { projectsArray, addListItem, deleteToDo, sortByDate, updateLocalStorage } from "./objects";
 import cat from './cat.jpg';
 import deleteIcon from './delete-icon.svg';
 import addIcon from './add-icon.svg'
@@ -35,6 +35,7 @@ const renderEmptyPage = () => {
 const expandItem = function(item) {
     this.classList.toggle('expanded');
     item.isExpanded = item.isExpanded ? false : true;
+    updateLocalStorage();
 }
 
 
@@ -65,6 +66,7 @@ const renderItem = (item, index=0) => {
         e.stopPropagation();
         this.isDone = this.isDone ? false : true;
         console.log(this);
+        updateLocalStorage();
     }.bind(item);
 
     itemIsDone.addEventListener('click', toggleDoneStatus);
