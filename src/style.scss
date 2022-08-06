@@ -21,6 +21,7 @@
     --accent-green: #bef264;
     --accent-yellow: #fde047;
     --accent-red: #fca5a5;
+    --accent-red-lighter: #fecaca;
     --accent-green-darker: #a3e635;
     --light-gray: #e5e5e5;
     --light-gray-text: #a3a3a3;
@@ -42,11 +43,16 @@ body,html{
 .header{
     grid-column: 1/-1;
     height: 3rem;
-    padding: 1rem 2rem;
+    padding: 1rem 3rem;
     
     background-color: var(--header-color);
 
     font-size: 2.5rem;
+    letter-spacing: 0.8rem;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--text-color-gray);
+    text-shadow: 3px 3px  white;
 
     display: flex;
     align-items: center;
@@ -141,6 +147,65 @@ body,html{
     align-items: center;
 
     color: var(--text-color-gray);
+    position: relative;
+
+    &__menu{
+        position: absolute;
+        top: calc(var(--order) * (3rem + 0.5rem));
+        right: 0;
+        height: 2.5rem;
+        width: 2.5rem;
+        outline: none;
+        border: 3px solid var(--light-gray-text);
+        // border: none;
+        border-radius: 1rem;
+        background-color: white ;
+        background-position: center;
+        background-size: contain;
+        cursor: pointer;
+
+        &::before{
+            position: absolute;
+            left: -6.5rem;
+            font-size: 0.9rem;
+            visibility: hidden;
+            color: var(--light-gray-text);
+            background: white;
+            border-radius: 0.4rem;
+        }
+
+        &.sort::before{
+            content: "Sort by priority"; 
+        }
+
+        &.sort-date::before{
+            content: "Sort by date";
+        }
+
+        &.delete{
+            border-color: var(--accent-red);
+        }
+
+        &.delete:hover{
+            background-color: var(--accent-red-lighter);
+        }
+
+        &.delete::before{
+            content: "Delete project";
+        }
+
+        &:hover::before{
+            visibility: visible ;
+        }
+
+        &:hover{
+            background-color: var(--light-gray);
+        }
+    }
+
+    &__delete{
+
+    }
 
     &__title{
         padding: 1rem 2rem;
@@ -339,6 +404,10 @@ body,html{
 
     &.hidden{
         visibility: hidden;
+    }
+
+    &:hover{
+        background-color: var(--header-color);
     }
 }
 

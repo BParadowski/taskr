@@ -42,13 +42,22 @@ const project = function(title, desc="",listItemArr=[]){
 
 
 export const createProject = (title, desc="") => {
-    projectsArray.push(project(title,desc, [testItem1, testItem2, testItem3]));
+    projectsArray.push(project(title,desc, []));
+
+    // creating example project
+    if (projectsArray.length === 1 && projectsArray[0].title === 'Example project'  && projectsArray[0].listItemArr.length === 0){
+        let exDate = new Date();
+        addListItem(projectsArray[0], 'Click me to expand', 'Use the checkbox to mark this item as done. You can also delete an item by selecting the trash can icon.', exDate, 3);
+        addListItem(projectsArray[0], 'To add new list item, use the plus sign below', 'You will be prompted for title, detailed description, due date and priority. Priority range is 1 to 3 with 1 being lowest and 3 highest.', exDate, 1);
+        addListItem(projectsArray[0], 'You can sort by priority or date using the menu on the right', 'You can also use it to remove currently selected project.', exDate, 2);
+        addListItem(projectsArray[0], 'Taskr saves your data in the browser', 'You can rest asssured - your projects are not going anywhere when you close the tab.', exDate, 3);
+    }
     updateLocalStorage();
 }
 
 export const addListItem = (project, itemTitle, desc, dueDate, priority) => {
     if (dueDate === '') dueDate ='No due date';
-    else {
+    else if (typeof dueDate === 'string'){
         dueDate = new Date(...dueDate.split('-'));
     }
     project.listItemArr.push(listItem(itemTitle, dueDate, priority, desc));
@@ -75,12 +84,31 @@ export const sortByDate = function (project) {
 }
 
 export const sortByPriorityDescending = function (project) {
-    project.listItemArr.sort((a,b) => (b.priority - a.priority));
+    project.listItemArr.sort((a,b) => {
+        if(a.isDone === false && b.isDone ===false){
+            return (b.priority - a.priority)
+        }
+        else if(a.isDone === true && b.isDone === false){
+            return 1;
+        }
+        else if(a.isDone === false && b.isDone === true){
+            return -1;
+        }
+        else{
+            return 0;
+        }
+    });
     updateLocalStorage();
 }
 
 export const deleteToDo = function (project, item) {
     let index = project.listItemArr.indexOf(item);
     project.listItemArr.splice(index, 1);
+    updateLocalStorage();
+}
+
+export const deleteProject = function(project){
+    let index = projectsArray.indexOf(project);
+    projectsArray.splice(index, 1);
     updateLocalStorage();
 }

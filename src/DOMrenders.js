@@ -1,8 +1,11 @@
 import { format } from 'date-fns'
-import { projectsArray, addListItem, deleteToDo, sortByDate, updateLocalStorage } from "./objects";
+import { projectsArray, addListItem, deleteToDo, deleteProject, sortByPriorityDescending, sortByDate, updateLocalStorage } from "./objects";
 import cat from './cat.jpg';
 import deleteIcon from './delete-icon.svg';
-import addIcon from './add-icon.svg'
+import addIcon from './add-icon.svg';
+import sortIcon from './sort-icon.svg';
+import sortIconDate from './sort-icon-date.svg';
+import deleteProjectIcon from './delete-project.svg';
 
 
 let currentProject; // variable holding the project the page of which is open atm
@@ -38,7 +41,15 @@ const expandItem = function(item) {
     updateLocalStorage();
 }
 
+const sortByPriority = () => {
+    sortByPriorityDescending(currentProject);
+    renderToDoList();
+}
 
+const sortProjectByDate = () =>{
+    sortByDate(currentProject);
+    renderToDoList();
+}
 
 const renderItem = (item, index=0) => {
     const projectList = document.querySelector('.project-page__list');
@@ -133,10 +144,17 @@ const renderItem = (item, index=0) => {
     console.log(currentProject);
 }
 
+const removeProject = () =>{
+    deleteProject(currentProject);
+    currentProject = undefined;
+    renderProjectsList();
+}
+
 export function renderProjectsList(){
     console.log(projectsArray);
     if (projectsArray.length === 0){
         renderEmptyPage();
+        projectsList.replaceChildren();
         return;
     }
     const projectsNodes = [];
@@ -189,7 +207,30 @@ export const renderToDoList = () => {
     
     //append items to it
     currentProject.listItemArr.forEach((item, index) => renderItem(item, index));
+    // add button to sort stuff
+    const sortingButton = document.createElement('button');
+    sortingButton.classList.add('project-page__menu', 'sort');
+    sortingButton.style.backgroundImage = `url(${sortIcon})`;
+    sortingButton.style.setProperty('--order', 0);
+    sortingButton.addEventListener('click', sortByPriority);
 
+    const sortingButtonDate = document.createElement('button');
+    sortingButtonDate.classList.add('project-page__menu', 'sort-date');
+    sortingButtonDate.style.backgroundImage = `url(${sortIconDate})`;
+    sortingButtonDate.style.setProperty('--order', 1);
+    sortingButtonDate.addEventListener('click', sortProjectByDate);
+
+
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('project-page__menu', 'delete');
+    deleteButton.style.backgroundImage = `url(${deleteProjectIcon})`;
+    deleteButton.style.setProperty('--order', 3);
+    deleteButton.addEventListener('click', removeProject);
+
+
+    projectPage.appendChild(sortingButton);
+    projectPage.appendChild(sortingButtonDate);
+    projectPage.appendChild(deleteButton);
     //reveal button to add new list items
     openModalBtn.classList.remove('hidden');
     openModalBtn.style.setProperty('--order', currentProject.listItemArr.length + 1);
