@@ -42,10 +42,6 @@ const project = function(title, desc="",listItemArr=[]){
 
 
 export const createProject = (title, desc="") => {
-    let testDate = new Date()
-    let testItem1 = listItem("Click me to expand", testDate, 3, "Use the checkbox to mark this item as done. You can also delete an item by selecting the trash can icon." );
-    let testItem2 = listItem("To add new list item, use plus sign below", testDate, 1, "You will be prompted for title, detailed description, due date and priority. Priority range is 1 to 3 with 1 being lowest and 3 highest." );
-    let testItem3 = listItem("Yaribu Kalaome'ri", testDate, 2, "" );
     projectsArray.push(project(title,desc, [testItem1, testItem2, testItem3]));
     updateLocalStorage();
 }
